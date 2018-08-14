@@ -52,6 +52,14 @@ void init( void )
     g_Console.setConsoleFont(0, 16, L"Consolas");
 }
 
+void newUselessFunctionForTesting() {
+	//what is 1+1;
+	int a = 1;
+	int b = 1;
+	int c = a + b;
+	//TADA
+}
+
 //--------------------------------------------------------------
 // Purpose  : Reset before exiting the program
 //            Do your clean up of memory here
