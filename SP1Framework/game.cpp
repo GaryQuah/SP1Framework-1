@@ -1,6 +1,5 @@
 // This is the main file for the game logic and function
-//
-//
+
 #include "game.h"
 #include "Framework\console.h"
 #include <iostream>
@@ -16,15 +15,17 @@ double  g_dElapsedTime;
 double  g_dDeltaTime;
 bool    g_abKeyPressed[K_COUNT];
 
-vector<string> map;
+vector<string> map1;
+vector<string> map2;
+vector<string> map3;
 
 // Game specific variables here
 SGameChar   g_sChar;
 EGAMESTATES g_eGameState = S_SPLASHSCREEN;
 double  g_dBounceTime; // this is to prevent key bouncing, so we won't trigger keypresses more than once
 
-// Console object
-Console g_Console(80, 25, "SP1 Framework");
+// Console object 
+Console g_Console(70, 30, "SP1 Framework");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -42,7 +43,9 @@ void init( void )
     // sets the initial state for the game
     g_eGameState = S_SPLASHSCREEN;
 
-	loadMap();
+	loadMap1();
+	loadMap2();
+	loadMap3();
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
     g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
@@ -139,7 +142,7 @@ void render()
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 0.0) // wait for 3 seconds to switch to game mode, else do nothing
+    if (g_dElapsedTime > 1.0) // wait for 3 seconds to switch to game mode, else do nothing
         g_eGameState = S_GAME;
 }
 
@@ -212,7 +215,7 @@ void renderSplashScreen()  // renders the splash screen
     COORD c = g_Console.getConsoleSize();
     c.Y /= 3;
     c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+    g_Console.writeToBuffer(c, "The Game Will Begin in 3 Seconds", 0x03);
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 20;
     g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
@@ -223,11 +226,15 @@ void renderSplashScreen()  // renders the splash screen
 
 void renderGame()
 {
-    renderMap();        // renders the map to the buffer first
+    renderMap1();        // renders the map to the buffer first
+	renderMap2();
+	renderMap3();
+
     renderCharacter();  // renders the character into the buffer
 }
 
-void loadMap() // level 1
+//----------------------------------Storing the maps into text files------------------------------
+void loadMap1() // storing map 1 textfile into a vector string.
 {
 	//pushing text file into vector
 	string line;
@@ -245,27 +252,113 @@ void loadMap() // level 1
 					line[i] = 219;
 				}
 			}
-			map.push_back(line);
+			map1.push_back(line);
 		}
 		myfile.close();
 	}
 }
 
-void renderMap()
+
+void loadMap2() // storing map 2 textfile into a vector string.
+{
+	//pushing text file into vector
+	string line;
+	ifstream myfile("map.txt");
+
+	//storing text text file into vector string
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			for (int i = 0; i < line.length(); i++)
+			{
+				if (line[i] == '@')
+				{
+					line[i] = 219;
+				}
+			}
+			map1.push_back(line);
+		}
+		myfile.close();
+	}
+}
+
+void loadMap3() // storing map 3 textfile into a vector string.
+{
+	//pushing text file into vector
+	string line;
+	ifstream myfile("map.txt");
+
+	//storing text text file into vector string
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line)) // y axis
+		{
+			for (int i = 0; i < line.length(); i++) //x axis
+			{
+				if (line[i] == '@') // if @ is present , convert to ascii 219 
+				{
+					line[i] = 219;
+				}
+			}
+			map1.push_back(line);
+		}
+		myfile.close();
+	}
+}
+
+//-------------------------------------------------------------------------------------------
+
+
+//----------------------------------------Rendering levels-----------------------------------
+
+void renderMap1() // rendering level 1
+{
+	COORD c;
+
+	int pos = 0;
+	int xpos = 0;
+	for (int i = 0; i < map1.size(); i++) //keep printing each line as long as vector != 0
+	{
+		c.X = xpos;
+		c.Y = pos + 1;
+		g_Console.writeToBuffer(c, map1[i]);
+		pos++;
+	}
+}
+
+void renderMap2() // rendering level 2
 {
 	COORD c;
 
 	// render 
 	int pos = 0;
 	int xpos = 0;
-	for (int i = 0; i < map.size(); i++) //keep printing each line as long as vector != 0
+	for (int i = 0; i < map1.size(); i++) //keep printing each line as long as vector != 0
 	{
 		c.X = xpos;
 		c.Y = pos + 1;
-		g_Console.writeToBuffer(c, map[i]);
+		g_Console.writeToBuffer(c, map1[i]);
 		pos++;
 	}
 }
+
+void renderMap3() // rendering level 3
+{
+	COORD c;
+
+	// render 
+	int pos = 0;
+	int xpos = 0;
+	for (int i = 0; i < map1.size(); i++) //keep printing each line as long as vector != 0
+	{
+		c.X = xpos;
+		c.Y = pos + 1;
+		g_Console.writeToBuffer(c, map1[i]);
+		pos++;
+	}
+}
+//----------------------------------------------------------------------------------------------------------
 
 void renderCharacter()
 {
@@ -289,6 +382,7 @@ void lives()
 			g_eGameState = S_SPLASHSCREEN;
 	}
 }
+//-----------------------------------------------------------------------------
 
 void renderFramerate()
 {
