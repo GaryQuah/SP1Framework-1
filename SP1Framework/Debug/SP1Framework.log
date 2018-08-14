@@ -1,10 +1,6 @@
 ﻿  game.cpp
-d:\users\l533\desktop\backup\sp1framework\sp1framework\game.cpp(241): warning C4018: '<': signed/unsigned mismatch
-d:\users\l533\desktop\backup\sp1framework\sp1framework\game.cpp(245): warning C4309: '=': truncation of constant value
-d:\users\l533\desktop\backup\sp1framework\sp1framework\game.cpp(261): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Compiling...
-  main.cpp
-  Generating Code...
-  SP1Framework.vcxproj -> D:\Users\l533\Desktop\BackUp\SP1Framework\Debug\SP1Framework.exe
-  SP1Framework.vcxproj -> D:\Users\l533\Desktop\BackUp\SP1Framework\Debug\SP1Framework.pdb (Full PDB)
+d:\users\l533\source\repos\sp1framework\sp1framework\game.cpp(241): warning C4018: '<': signed/unsigned mismatch
+d:\users\l533\source\repos\sp1framework\sp1framework\game.cpp(245): warning C4309: '=': truncation of constant value
+d:\users\l533\source\repos\sp1framework\sp1framework\game.cpp(261): warning C4018: '<': signed/unsigned mismatch
+  SP1Framework.vcxproj -> D:\Users\l533\Source\Repos\SP1Framework\Debug\SP1Framework.exe
+  SP1Framework.vcxproj -> D:\Users\l533\Source\Repos\SP1Framework\Debug\SP1Framework.pdb (Full PDB)
